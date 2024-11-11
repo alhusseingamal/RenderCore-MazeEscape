@@ -15,5 +15,5 @@ void main(){
     int x = int(gl_FragCoord.x) / size;
     int y = int(gl_FragCoord.y) / size;
     int index = (x + y) % 2;
-    frag_color = vec4(colors[0], 1.0);
+    frag_color = vec4(colors[index], 1.0);
 }

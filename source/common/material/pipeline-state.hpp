@@ -35,6 +35,7 @@ namespace our {
         // These options specify the color and depth mask which can be used to
         // prevent the rendering/clearing from modifying certain channels of certain targets in the framebuffer
         glm::bvec4 colorMask = {true, true, true, true}; // To know how to use it, check glColorMask
+        // all true means that all channels are writable, if one is false, that channel is not writable 
         bool depthMask = true; // To know how to use it, check glDepthMask
 
 
@@ -42,6 +43,34 @@ namespace our {
         // For example, if faceCulling.enabled is true, you should call glEnable(GL_CULL_FACE), otherwise, you should call glDisable(GL_CULL_FACE)
         void setup() const {
             //TODO: (Req 4) Write this function
+            if(faceCulling.enabled) {
+                glEnable(GL_CULL_FACE);
+                glCullFace(faceCulling.culledFace);
+                glFrontFace(faceCulling.frontFace);
+            } else {
+                glDisable(GL_CULL_FACE);
+            }
+            if(depthTesting.enabled) {
+                glEnable(GL_DEPTH_TEST);
+                glDepthFunc(depthTesting.function);
+            } else {
+                glDisable(GL_DEPTH_TEST);
+            }
+            if(blending.enabled) {
+                glEnable(GL_BLEND);
+                // GL_Blend is a function that combines the source color with the destination color
+                glBlendEquation(blending.equation); 
+                glBlendFunc(blending.sourceFactor, blending.destinationFactor); // The source color is multiplied by the source factor and the destination color is multiplied by the destination factor
+                glBlendColor(blending.constantColor.r, blending.constantColor.g, blending.constantColor.b, blending.constantColor.a);
+            } else {
+                glDisable(GL_BLEND);
+            }
+            // glColorMask is a function that specifies whether the color buffer is writable or not
+            glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a);
+            // glDepthMask is a function that specifies whether the depth buffer is writable or not
+            // when rendering obaque objects, it is usually set to true while for transparent objects, it is set to false
+            glDepthMask(depthMask);
+
         }
 
         // Given a json object, this function deserializes a PipelineState structure
