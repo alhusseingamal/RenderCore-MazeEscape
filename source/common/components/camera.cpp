@@ -39,7 +39,7 @@ namespace our {
         // M is vec4 so multiply it by vec4
         glm::vec3 eye = glm::vec3(M * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
         glm::vec3 center = glm::vec3(M * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f));
-        glm::vec3 up = glm::vec3(M * glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        glm::vec3 up = glm::vec3(M * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)); // as up is a vector not a point
         
         return glm::lookAt(eye, center, up);
     }
