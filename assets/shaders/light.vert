@@ -6,7 +6,7 @@ out Varyings
     vec2 textureCoordinates;
     vec3 normal;
     vec3 view;
-    vertexWorldPosition;
+    vec3 WorldPosition;
 } Vs_outData;
 
 layout(location = 0) in vec3 position;
@@ -27,5 +27,5 @@ void main()
     Vs_outData.textureCoordinates = textureCoordinates;
     Vs_outData.normal = normalize((M_IT * vec4(normal, 0.0)).xyz);
     Vs_outData.view = cameraPosition-vertexWorldPosition; // camera position in world space
-    Vs_outData.vertexWorldPosition = vertexWorldPosition;
+    Vs_outData.WorldPosition = vertexWorldPosition;
 }
