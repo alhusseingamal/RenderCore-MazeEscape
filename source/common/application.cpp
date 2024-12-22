@@ -1,5 +1,8 @@
 #include "application.hpp"
 
+//#define MINIAUDIO_IMPLEMENTATION
+//#include <miniaudio.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,6 +12,8 @@
 #include <queue>
 #include <tuple>
 #include <filesystem>
+#include <components/audio-controller.hpp>
+our::AudioController* our::AudioController::audioController = NULL;
 
 #include <flags/flags.h>
 
@@ -238,6 +243,8 @@ int our::Application::run(int run_for_frames) {
     // The time at which the last frame started. But there was no frames yet, so we'll just pick the current time.
     double last_frame_time = glfwGetTime();
     int current_frame = 0;
+    AudioController* audioController = AudioController::getAudioController();
+    audioController->play("menu", true, true);
 
     //Game loop
     while(!glfwWindowShouldClose(window)){
@@ -316,11 +323,27 @@ int our::Application::run(int run_for_frames) {
         while(nextState){
             // If a scene was already running, destroy it (not delete since we can go back to it later)
             if(currentState) currentState->onDestroy();
+            // Extract next audio based on the next state
+            for (auto it : states) {
+                if (it.second == nextState) {
+                    currentStateName = it.first;
+                    break;
+                }
+            }
             // Switch scenes
             currentState = nextState;
             nextState = nullptr;
             // Initialize the new scene
             currentState->onInitialize();
+
+            // Switch audio
+            // Should this be done here or in onInitialize? examine later
+            if (currentStateName == "win" || currentStateName == "loss") {
+                audioController->play(currentStateName, false, true);
+            }
+            else {
+                audioController->play(currentStateName, true, true);
+            }
         }
 
         ++current_frame;

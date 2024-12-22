@@ -13,6 +13,8 @@
 #include "input/keyboard.hpp"
 #include "input/mouse.hpp"
 
+#include <filesystem>
+
 namespace our {
 
     // This struct handles window attributes: (title, size, isFullscreen).
@@ -36,6 +38,8 @@ namespace our {
         virtual void onDraw(double deltaTime){}         // Called every frame in the game loop passing the time taken to draw the frame "Delta time".
         virtual void onDestroy(){}                      // Called once after the game loop ends for house cleaning.
 
+        virtual void addExtraTime(){}
+        virtual void addDamage(){}
 
         // Override these functions to get mouse and keyboard event.
         virtual void onKeyEvent(int key, int scancode, int action, int mods){}      
@@ -62,6 +66,7 @@ namespace our {
         std::unordered_map<std::string, State*> states;   // This will store all the states that the application can run
         State * currentState = nullptr;         // This will store the current scene that is being run
         State * nextState = nullptr;            // If it is requested to go to another scene, this will contain a pointer to that scene
+        std::string currentStateName;
 
         
         // Virtual functions to be overrode and change the default behaviour of the application
@@ -132,6 +137,55 @@ namespace our {
             glm::ivec2 size;
             glfwGetWindowSize(window, &(size.x), &(size.y));
             return size;
+        }
+
+        void printTextInBox(std::string text, float width, float height, float textSize, int r, int g, int b, int a) {
+            ImGuiIO &io = ImGui::GetIO();
+
+            // Set the font size
+            io.FontGlobalScale = textSize;
+
+            // Calculate text width based on the number of characters and text size
+            float text_width = (float)text.size() * 7 * io.FontGlobalScale; // Approximate width per character
+
+            // Calculate the horizontal position to center the text within the specified width
+            float x_position = (width - text_width) / 2;
+            float y_position = height;
+
+            // Ensure text doesn't go out of bounds if the calculated position is negative
+            if (x_position < 0) x_position = 0;
+
+            ImVec2 text_pos = ImVec2(x_position, y_position);
+            ImU32 text_color = IM_COL32(r, g, b, a);
+
+            // Add the text to the background draw list
+            ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
+            ImGui::Render();
+        }
+
+
+
+        void printTextCenter(std::string text, int height, float textSize, int r, int g, int b, int a) {
+            ImGuiIO &io = ImGui::GetIO();
+
+            io.FontGlobalScale = textSize;
+
+            WindowConfiguration windowConfiguration = this->getWindowConfiguration();
+            float window_width = windowConfiguration.size.x;
+            float text_width = (float) text.size();
+
+            ImVec2 text_pos = ImVec2((float)(window_width / 2 - 7 * io.FontGlobalScale * (text_width / 2)), (float)height);
+            ImU32 text_color = IM_COL32(r, g, b, a);
+
+            ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
+            ImGui::Render();
+        }
+    
+        void addExtraTime() {
+            currentState->addExtraTime();
+        }
+        void addDamage() {
+            currentState->addDamage();
         }
     };
 }

@@ -37,18 +37,18 @@ namespace our
         {
             static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
             // TODO: (Req 8) Create an component of type T, set its "owner" to be this entity, then push it into the component's list
+            //  Don't forget to return a pointer to the new component
 
-            // create a component
-            T *component = new T();
+            // Create an component of type T
+            T *newComponent = new T();
 
-            // set its owner to this entity
-            component->owner = this;
-
+            // set its "owner" to be this entity
+            newComponent->owner = this;
             // push it into the component's list
-            components.push_back(component);
+            this->components.push_back(newComponent);
 
-            // return the component
-            return component;
+            // return a pointer to the new component
+            return newComponent;
         }
 
         // This template method searhes for a component of type T and returns a pointer to it
@@ -59,18 +59,15 @@ namespace our
             // TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             //  Return the component you found, or return null of nothing was found.
 
-            // search for the component in components list
-            for (Component *component : components)
+            // Iterate through the components list
+            for (auto it = this->components.begin(); it != this->components.end(); it++)
             {
-                // try to dynamic cast the component
-                T *componentCasted = dynamic_cast<T *>(component);
-
-                // return the casted component if it is not null
-                if (componentCasted != nullptr)
-                {
-                    return componentCasted;
-                }
+                // Check if component is of type T
+                if (dynamic_cast<T *>(*it) != nullptr)
+                    // If so, return the component
+                    return dynamic_cast<T *>(*it);
             }
+            // If nothing was found, return nullptr
             return nullptr;
         }
 
@@ -93,19 +90,18 @@ namespace our
             // TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             //  If found, delete the found component and remove it from the components list
 
-            // search for the component in components list
-            for (Component *component : components)
+            // Iterate through the components list
+            for (auto it = this->components.begin(); it != this->components.end(); it++)
             {
-                // try to dynamic cast the component
-                T *componentCasted = dynamic_cast<T *>(component);
-
-                // return the casted component if it is not null
-                if (componentCasted != nullptr)
-                {
-                    // delete the component
-                    delete componentCasted;
-                    // remove component from componant list
-                    components.remove(component);
+                // Check if component is of type T
+                if (dynamic_cast<T *>(*it) != nullptr) {
+                    // If so
+                    // delete the found component
+                    delete *it;
+                    // remove it from the components list
+                    this->components.erase(it);
+                    // return after deleting the first component
+                    return;
                 }
             }
         }
@@ -122,24 +118,25 @@ namespace our
             }
         }
 
-        // This template method searhes for the given component and deletes it
+        // This template method searches for the given component and deletes it
         template <typename T>
         void deleteComponent(T const *component)
         {
             // TODO: (Req 8) Go through the components list and find the given component "component".
             //  If found, delete the found component and remove it from the components list
 
-            // search for the component in components list
-            for (Component *componentInList : components)
+            // Iterate through the components list
+            for (auto it = this->components.begin(); it != this->components.end(); it++)
             {
-
-                if (componentInList == component)
-                {
-                    // delete the component
-                    delete componentInList;
-                    // remove component from componant list
-                    components.remove(component);
-                }
+                // Check if the component
+                if (*it == component)
+                    // If so
+                    // delete the found component
+                    delete *it;
+                    // remove it from the components list
+                    this->components.erase(it);
+                    // return after deleting the given component
+                    return;
             }
         }
 
@@ -147,10 +144,15 @@ namespace our
         ~Entity()
         {
             // TODO: (Req 8) Delete all the components in "components".
-            for (Component *component : components)
+
+            // Iterate through the components list
+            for (auto it = this->components.begin(); it != this->components.end(); it++)
             {
-                delete component;
+                // delete the found component
+                delete *it;
             }
+            // Clear the components list
+            components.clear();
         }
 
         // Entities should not be copyable

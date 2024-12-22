@@ -14,6 +14,8 @@
 struct Button {
     // The position (of the top-left corner) of the button and its size in pixels
     glm::vec2 position, size;
+    // whether this button is currently selected
+    bool selected = false;
     // The function that should be excuted when the button is clicked. It takes no arguments and returns nothing.
     std::function<void()> action;
 
@@ -46,6 +48,8 @@ class Menustate: public our::State {
     float time;
     // An array of the button that we can interact with
     std::array<Button, 2> buttons;
+    // An array of the play states to change into (for better modularity, and ease of state extension in the future)
+    std::array<std::string, 2> playStates;
 
     void onInitialize() override {
         // First, we create a material for the menu's background
@@ -91,6 +95,10 @@ class Menustate: public our::State {
         // Reset the time elapsed since the state is entered.
         time = 0;
 
+        // Fill the playStates array
+        std::string playState = "play";
+        playStates[0] = playState;
+
         // Fill the positions, sizes and actions for the menu buttons
         // Note that we use lambda expressions to set the actions of the buttons.
         // A lambda expression consists of 3 parts:
@@ -98,10 +106,10 @@ class Menustate: public our::State {
         //      We store [this] in the capture list since we will use it in the action.
         // - The argument list () which is the arguments that the lambda should receive when it is called.
         //      We leave it empty since button actions receive no input.
-        // - The body {} which contains the code to be executed. 
+        // - The body {} which contains the code to be executed.
         buttons[0].position = {830.0f, 607.0f};
         buttons[0].size = {400.0f, 33.0f};
-        buttons[0].action = [this](){this->getApp()->changeState("play");};
+        buttons[0].action = [this](){this->getApp()->changeState(playStates[0]);};
 
         buttons[1].position = {830.0f, 644.0f};
         buttons[1].size = {400.0f, 33.0f};
@@ -114,7 +122,7 @@ class Menustate: public our::State {
 
         if(keyboard.justPressed(GLFW_KEY_SPACE)){
             // If the space key is pressed in this frame, go to the play state
-            getApp()->changeState("play");
+            getApp()->changeState(playStates[0]);
         } else if(keyboard.justPressed(GLFW_KEY_ESCAPE)) {
             // If the escape key is pressed in this frame, exit the game
             getApp()->close();
@@ -166,7 +174,6 @@ class Menustate: public our::State {
                 rectangle->draw();
             }
         }
-        
     }
 
     void onDestroy() override {

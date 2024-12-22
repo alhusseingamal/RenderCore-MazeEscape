@@ -5,7 +5,13 @@
 #include "mesh-renderer.hpp"
 #include "free-camera-controller.hpp"
 #include "movement.hpp"
-
+#include "wall.hpp"
+#include "zwall.hpp"
+#include "pickup.hpp"
+#include "enemy.hpp"
+#include "player.hpp"
+#include "player-controller.hpp"
+#include"light.hpp"
 namespace our
 {
 
@@ -20,11 +26,6 @@ namespace our
         {
             component = entity->addComponent<CameraComponent>();
         }
-        // deserialize a meshrendered component
-        else if (type == MeshRendererComponent::getID())
-        {
-            component = entity->addComponent<MeshRendererComponent>();
-        }
         else if (type == FreeCameraControllerComponent::getID())
         {
             component = entity->addComponent<FreeCameraControllerComponent>();
@@ -33,8 +34,32 @@ namespace our
         {
             component = entity->addComponent<MovementComponent>();
         }
+        else if (type == MeshRendererComponent::getID())
+        {
+            component = entity->addComponent<MeshRendererComponent>();
+        }
+        else if (type == wall::getID()) {
+            component = entity->addComponent<wall>();
+        }
+        else if (type == zwall::getID()) {
+            component = entity->addComponent<zwall>();
+        }
+        else if (type == Pickup::getID()) {
+            component = entity->addComponent<Pickup>();
+        }
+        else if(type == LightComponent::getID()){
+            component = entity->addComponent<LightComponent>();
+        }
+        else if (type == Player::getID()) {
+            component = entity->addComponent<Player>();
+        }
+        else if (type == PlayerControllerComponent::getID()) {
+            component = entity->addComponent<PlayerControllerComponent>();
+        } 
+        else if (type == Enemy::getID()) {
+            component = entity->addComponent<Enemy>();
+        }
         if (component)
             component->deserialize(data);
     }
-
 }

@@ -75,15 +75,32 @@ set(COMMON_SOURCES
         source/common/components/mesh-renderer.cpp
         source/common/components/free-camera-controller.hpp
         source/common/components/free-camera-controller.cpp
+        source/common/components/player-controller.hpp
+        source/common/components/player-controller.cpp
         source/common/components/movement.hpp
         source/common/components/movement.cpp
         source/common/components/component-deserializer.hpp
+        source/common/components/light.hpp
+        source/common/components/light.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
         source/common/systems/free-camera-controller.hpp
         source/common/systems/movement.hpp
-)
+        source/common/systems/player-controller.hpp
+
+        source/common/components/wall.hpp
+        source/common/components/wall.cpp
+        source/common/components/zwall.hpp
+        source/common/components/zwall.cpp
+        source/common/components/pickup.hpp
+        source/common/components/pickup.cpp
+        source/common/components/enemy.hpp
+        source/common/components/enemy.cpp
+        source/common/components/player.hpp
+        source/common/components/player.cpp
+        source/common/components/audio-controller.hpp
+        source/common/components/audio-controller.cpp)
 
 # Define the directories in which to search for the included headers
 include_directories(
@@ -93,6 +110,7 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
+        vendor/miniaudio
 )
 
 
@@ -112,7 +130,8 @@ set(STATES_SOURCES
         source/states/material-test-state.hpp
         source/states/entity-test-state.hpp
         source/states/renderer-test-state.hpp
-)
+        source/states/win-state.hpp
+        source/states/loss-state.hpp)
 
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files
