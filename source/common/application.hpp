@@ -40,6 +40,7 @@ namespace our {
 
         virtual void addExtraTime(){}
         virtual void addDamage(){}
+        virtual void addPowerUp(){}
 
         // Override these functions to get mouse and keyboard event.
         virtual void onKeyEvent(int key, int scancode, int action, int mods){}      
@@ -186,6 +187,9 @@ namespace our {
         }
         void addDamage() {
             currentState->addDamage();
+        }
+        void addPowerUp() {
+            currentState->addPowerUp();
         }
     };
 }

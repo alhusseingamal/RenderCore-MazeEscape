@@ -14,13 +14,14 @@
 #include <glm/gtx/fast_trigonometry.hpp>
 #include "../components/wall.hpp"
 #include "../components/zwall.hpp"
-#include "../components/pickup.hpp"
-#include "../components/enemy.hpp"
+#include "../components/timeup.hpp"
+#include "../components/powerup.hpp"
+#include "../components/mine.hpp"
 #include "../components/light.hpp"
 #include "../components/player.hpp"
 #include "../components/movement.hpp"
 
-#define COLLIDED_WITH_PICKUP 2
+#define COLLIDED_WITH_TIMEUP 2
 #define COLLIDED_WITH_XWALL 1
 #define COLLIDED_WITH_ZWALL -1
 #define NO_COLLISION 0
@@ -106,38 +107,38 @@ namespace our
             if (app->getKeyboard().isPressed(GLFW_KEY_S))
                 position += front * (deltaTime * (current_sensitivity.z));
             
-            isCollided = detectCollision(world, position);
-            if (isCollided) {
-                position -= front * (deltaTime * current_sensitivity.z);
-                audioController->play("tom-scream", 0, 0);
-            }
+            // isCollided = detectCollision(world, position);
+            // if (isCollided) {
+            //     position -= front * (deltaTime * current_sensitivity.z);
+            //     audioController->play("tom-scream", 0, 0);
+            // }
 
             if (app->getKeyboard().isPressed(GLFW_KEY_W) && !isCollided) // !isCollided (is it needed?)
                 position -= front * (deltaTime * current_sensitivity.z);
             
-            isCollided = detectCollision(world, position);
-            if (isCollided) {
-                position += front * (deltaTime * current_sensitivity.z);
-                audioController->play("tom-scream", 0, 0);
-            }
+            // isCollided = detectCollision(world, position);
+            // if (isCollided) {
+            //     position += front * (deltaTime * current_sensitivity.z);
+            //     audioController->play("tom-scream", 0, 0);
+            // }
 
             if(app->getKeyboard().isPressed(GLFW_KEY_D)) 
                 position -= right * (deltaTime * current_sensitivity.x);
             
-            isCollided = detectCollision(world, position);
-            if (isCollided) {
-                position += right * (deltaTime * current_sensitivity.z);
-                audioController->play("tom-scream", 0, 0);
-            }
+            // isCollided = detectCollision(world, position);
+            // if (isCollided) {
+            //     position += right * (deltaTime * current_sensitivity.z);
+            //     audioController->play("tom-scream", 0, 0);
+            // }
             
             if(app->getKeyboard().isPressed(GLFW_KEY_A)) 
                 position += right * (deltaTime * current_sensitivity.x);
             
-            isCollided = detectCollision(world, position);
-            if (isCollided) {
-                position -= right * (deltaTime * current_sensitivity.z);
-                audioController->play("tom-scream", 0, 0);
-            }
+            // isCollided = detectCollision(world, position);
+            // if (isCollided) {
+            //     position -= right * (deltaTime * current_sensitivity.z);
+            //     audioController->play("tom-scream", 0, 0);
+            // }
 
             // We change the player rotation based on the mouse movement
 
@@ -168,8 +169,9 @@ namespace our
 
             glm::vec3 wallPosition;
             glm::vec3 zwallPosition;
-            glm::vec3 pickupPosition;
-            glm::vec3 enemyPosition;
+            glm::vec3 timeupPosition;
+            glm::vec3 powerupPosition;
+            glm::vec3 minePosition;
             glm::vec3 movementPosition;
 
             auto entities = World->getEntities();
@@ -198,16 +200,15 @@ namespace our
                     }
                 }
 
-                // collecting pickup
-                if (entity->getComponent<Pickup>())
+                // collecting timeup
+                if (entity->getComponent<Timeup>())
                 {
-                    pickupPosition = entity->localTransform.position;
+                    timeupPosition = entity->localTransform.position;
 
-                    if (abs(position.x - pickupPosition.x) <= 1 && abs(position.z - pickupPosition.z) <= 1)
+                    if (abs(position.x - timeupPosition.x) <= 1 && abs(position.z - timeupPosition.z) <= 1)
                     {
-                        // return COLLIDED_WITH_PICKUP;
-                        printf("Collected a pickup\n");
-                        entity->deleteComponent(entity->getComponent<Pickup>());
+                        printf("Collected a timeup\n");
+                        entity->deleteComponent(entity->getComponent<Timeup>());
                         if (entity->getComponent<LightComponent>())
                         {
                             entity->deleteComponent(entity->getComponent<LightComponent>());
@@ -217,20 +218,18 @@ namespace our
                             entity->deleteComponent(entity->getComponent<MovementComponent>());
                         }
                         audioController->play("nice", 0, 0);
-                        // return COLLIDED_WITH_PICKUP; // ?
                         app->addExtraTime();
                     }
                 }
                 // bumping into a mine
-                if (entity->getComponent<Enemy>())
+                if (entity->getComponent<Mine>())
                 {
-                    enemyPosition = entity->localTransform.position;
+                    minePosition = entity->localTransform.position;
 
-                    if (abs(position.x - enemyPosition.x) <= 1 && abs(position.z - enemyPosition.z) <= 1)
+                    if (abs(position.x - minePosition.x) <= 1 && abs(position.z - minePosition.z) <= 1)
                     {
-                        // return COLLIDED_WITH_PICKUP;
-                        printf("Enemy Encounter\n");
-                        entity->deleteComponent(entity->getComponent<Enemy>());
+                        printf("Mine Encounter\n");
+                        entity->deleteComponent(entity->getComponent<Mine>());
                         if (entity->getComponent<LightComponent>())
                         {
                             entity->deleteComponent(entity->getComponent<LightComponent>());
@@ -241,6 +240,28 @@ namespace our
                         }
                         audioController->play("nice", 0, 0);
                         app->addDamage();
+                    }
+                }
+
+                // collecting powerup
+                if (entity->getComponent<Mine>())
+                {
+                    powerupPosition = entity->localTransform.position;
+
+                    if (abs(position.x - powerupPosition.x) <= 1 && abs(position.z - powerupPosition.z) <= 1)
+                    {
+                        printf("Power-up\n");
+                        entity->deleteComponent(entity->getComponent<Mine>());
+                        if (entity->getComponent<LightComponent>())
+                        {
+                            entity->deleteComponent(entity->getComponent<LightComponent>());
+                        }
+                        if (entity->getComponent<MovementComponent>())
+                        {
+                            entity->deleteComponent(entity->getComponent<MovementComponent>());
+                        }
+                        audioController->play("nice", 0, 0);
+                        app->addPowerUp();
                     }
                 }
 

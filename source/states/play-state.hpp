@@ -23,6 +23,7 @@ class Playstate: public our::State {
     int extra_time;
     bool extra_time_flag = false;
     bool damage_flag = false;
+    bool power_up_flag = false;
 
     void onInitialize() override {
         // First of all, we get the scene configuration from the app config
@@ -66,6 +67,10 @@ class Playstate: public our::State {
         damage_flag = true;
     }
 
+    void addPowerUp() {
+        power_up_flag = true;
+    }
+
     void onDraw(double deltaTime) override {
         // Here, we just run a bunch of systems to control the world logic
         // Timer System
@@ -87,7 +92,7 @@ class Playstate: public our::State {
         if (clock == 0) duration_seconds = (duration_seconds - 1 + 60) % 60;
         if (duration_seconds == 59 && clock == 0) duration_minutes--;
 
-        // Add extra time if collected pickup
+        // Add extra time if collected timeup
         if(extra_time_flag){
             if(duration_seconds + extra_time >= 60) {
                 duration_seconds = (duration_seconds + extra_time) % 60;
@@ -97,14 +102,20 @@ class Playstate: public our::State {
             }
             extra_time_flag = false;
         }
+
         // Health System
         std::string health_str = "Health: " + std::to_string(health);
         getApp()->printTextInBox(health_str, 0, 1, 5, 0, 0, 0, 255);
 
-        // Add damage if encountered enemy
+        // Add damage if encountered mine
         if(damage_flag){
             health -= damage;
             damage_flag = false;
+        }
+
+        if(power_up_flag){
+            health = std::min(100, health + power_up); // the 100 should be replaced with the max health (not be hardcoded)
+            power_up_flag = false;
         }
 
         // Update

@@ -7,8 +7,9 @@
 #include "movement.hpp"
 #include "wall.hpp"
 #include "zwall.hpp"
-#include "pickup.hpp"
-#include "enemy.hpp"
+#include "timeup.hpp"
+#include "powerup.hpp"
+#include "mine.hpp"
 #include "player.hpp"
 #include "player-controller.hpp"
 #include"light.hpp"
@@ -44,8 +45,11 @@ namespace our
         else if (type == zwall::getID()) {
             component = entity->addComponent<zwall>();
         }
-        else if (type == Pickup::getID()) {
-            component = entity->addComponent<Pickup>();
+        else if (type == Timeup::getID()) {
+            component = entity->addComponent<Timeup>();
+        }
+        else if (type == Powerup::getID()) {
+            component = entity->addComponent<Powerup>();
         }
         else if(type == LightComponent::getID()){
             component = entity->addComponent<LightComponent>();
@@ -56,8 +60,8 @@ namespace our
         else if (type == PlayerControllerComponent::getID()) {
             component = entity->addComponent<PlayerControllerComponent>();
         } 
-        else if (type == Enemy::getID()) {
-            component = entity->addComponent<Enemy>();
+        else if (type == Mine::getID()) {
+            component = entity->addComponent<Mine>();
         }
         if (component)
             component->deserialize(data);

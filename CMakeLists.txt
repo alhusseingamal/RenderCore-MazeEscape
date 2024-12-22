@@ -93,10 +93,12 @@ set(COMMON_SOURCES
         source/common/components/wall.cpp
         source/common/components/zwall.hpp
         source/common/components/zwall.cpp
-        source/common/components/pickup.hpp
-        source/common/components/pickup.cpp
-        source/common/components/enemy.hpp
-        source/common/components/enemy.cpp
+        source/common/components/timeup.hpp
+        source/common/components/timeup.cpp
+        source/common/components/powerup.hpp
+        source/common/components/powerup.cpp
+        source/common/components/mine.hpp
+        source/common/components/mine.cpp
         source/common/components/player.hpp
         source/common/components/player.cpp
         source/common/components/audio-controller.hpp
