@@ -17,9 +17,9 @@ namespace our
             sounds["play"] = new ma_sound();
             sounds["loss"] = new ma_sound();
             sounds["win"] = new ma_sound();
+            sounds["win-2"] = new ma_sound();
             sounds["nice"] = new ma_sound();
-            sounds["hurt"] = new ma_sound();
-            sounds["tom-scream"] = new ma_sound();
+            sounds["scream"] = new ma_sound();
             // Initializing the audio engine
             ma_result result;
             ma_engine *pEngine = new ma_engine();
@@ -32,9 +32,9 @@ namespace our
                 ma_sound_init_from_file(pEngine, "assets/audio/play.mp3", 0, NULL, NULL, sounds["play"]);
                 ma_sound_init_from_file(pEngine, "assets/audio/loss.mp3", 0, NULL, NULL, sounds["loss"]);
                 ma_sound_init_from_file(pEngine, "assets/audio/win.mp3", 0, NULL, NULL, sounds["win"]);
+                ma_sound_init_from_file(pEngine, "assets/audio/win-2.mp3", 0, NULL, NULL, sounds["win-2"]);
                 ma_sound_init_from_file(pEngine, "assets/audio/nice.mp3", 0, NULL, NULL, sounds["nice"]);
-                ma_sound_init_from_file(pEngine, "assets/audio/hurt.mp3", 0, NULL, NULL, sounds["hurt"]);
-                ma_sound_init_from_file(pEngine, "assets/audio/tom-scream.mp3", 0, NULL, NULL, sounds["tom-scream"]);
+                ma_sound_init_from_file(pEngine, "assets/audio/scream.mp3", 0, NULL, NULL, sounds["scream"]);
             }
         }
 

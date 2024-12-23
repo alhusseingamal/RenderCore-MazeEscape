@@ -107,38 +107,38 @@ namespace our
             if (app->getKeyboard().isPressed(GLFW_KEY_S))
                 position += front * (deltaTime * (current_sensitivity.z));
             
-            // isCollided = detectCollision(world, position);
-            // if (isCollided) {
-            //     position -= front * (deltaTime * current_sensitivity.z);
-            //     audioController->play("tom-scream", 0, 0);
-            // }
+            isCollided = detectCollision(world, position);
+            if (isCollided) {
+                position -= front * (deltaTime * current_sensitivity.z);
+                audioController->play("scream", 0, 0);
+            }
 
             if (app->getKeyboard().isPressed(GLFW_KEY_W) && !isCollided) // !isCollided (is it needed?)
                 position -= front * (deltaTime * current_sensitivity.z);
             
-            // isCollided = detectCollision(world, position);
-            // if (isCollided) {
-            //     position += front * (deltaTime * current_sensitivity.z);
-            //     audioController->play("tom-scream", 0, 0);
-            // }
+            isCollided = detectCollision(world, position);
+            if (isCollided) {
+                position += front * (deltaTime * current_sensitivity.z);
+                audioController->play("scream", 0, 0);
+            }
 
             if(app->getKeyboard().isPressed(GLFW_KEY_D)) 
                 position -= right * (deltaTime * current_sensitivity.x);
             
-            // isCollided = detectCollision(world, position);
-            // if (isCollided) {
-            //     position += right * (deltaTime * current_sensitivity.z);
-            //     audioController->play("tom-scream", 0, 0);
-            // }
+            isCollided = detectCollision(world, position);
+            if (isCollided) {
+                position += right * (deltaTime * current_sensitivity.z);
+                audioController->play("scream", 0, 0);
+            }
             
             if(app->getKeyboard().isPressed(GLFW_KEY_A)) 
                 position += right * (deltaTime * current_sensitivity.x);
             
-            // isCollided = detectCollision(world, position);
-            // if (isCollided) {
-            //     position -= right * (deltaTime * current_sensitivity.z);
-            //     audioController->play("tom-scream", 0, 0);
-            // }
+            isCollided = detectCollision(world, position);
+            if (isCollided) {
+                position -= right * (deltaTime * current_sensitivity.z);
+                audioController->play("scream", 0, 0);
+            }
 
             // We change the player rotation based on the mouse movement
 
@@ -150,15 +150,11 @@ namespace our
             }
 
             if (position.z < -105 && (-5 < position.x && position.x < 5)) {
-                std::cout << "XXXXXXXXX" << " : ";
-                std::cout << app->getPreviousStateName() << std::endl;
-                std::cout << app->getCurrentStateName() << std::endl;
                 if (app->getCurrentStateName() == "play") {
                     app->changeState("win");
                 } else {
                     app->changeState("win-2");
                 }
-                // app->getPreviousStateName() == "play" ? app->changeState("win") : app->changeState("win-2");
             }
         }
 

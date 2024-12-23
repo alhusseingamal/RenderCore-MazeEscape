@@ -114,7 +114,11 @@ class PlaystateLevel2: public our::State {
         }
 
         if(power_up_flag){
-            health = std::min(100, health + power_up); // the 100 should be replaced with the max health (not be hardcoded)
+            if (health + power_up > 100) {  // the 100 should be replaced with the max health (not be hardcoded)
+                health = 100;
+            } else {
+                health += power_up;
+            }
             power_up_flag = false;
         }
 

@@ -3,7 +3,7 @@
     "power-up": 5,
     "damage": 99,
     "duration-minutes": 0,
-    "duration-seconds": 5,
+    "duration-seconds": 10,
     "speeddown-factor": 10,
     "extra_time" : 15,
     "start-scene": "menu",
@@ -207,7 +207,7 @@
           },
         "world":[
               {
-              "position": [0,20, 0],
+              "position": [0,17, 0],
                 "name": "player",
                 "rotation": [0, 180, 0],
                 "scale": [1, 1, 1],

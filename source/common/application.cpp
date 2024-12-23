@@ -338,7 +338,7 @@ int our::Application::run(int run_for_frames) {
 
             // Switch audio
             // Should this be done here or in onInitialize? examine later
-            if (currentStateName == "win" || currentStateName == "loss") {
+            if (currentStateName == "win" ||currentStateName == "win-2" || currentStateName == "loss") {
                 audioController->play(currentStateName, false, true);
             }
             else {
