@@ -48,7 +48,8 @@ class Menustate: public our::State {
     float time;
     // An array of the button that we can interact with
     std::array<Button, 2> buttons;
-    // An array of the play states to change into (for better modularity, and ease of state extension in the future)
+    // An array of the play states to change into 
+    // currently we have only one play state accessible from the menu, so using array is not necessary here, but is better for better modularity, and ease of state extension in the future
     std::array<std::string, 2> playStates;
 
     void onInitialize() override {
@@ -60,7 +61,7 @@ class Menustate: public our::State {
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menu.jpg");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menu.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 

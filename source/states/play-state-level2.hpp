@@ -105,7 +105,7 @@ class PlaystateLevel2: public our::State {
 
         // Health System
         std::string health_str = "Health: " + std::to_string(health);
-        getApp()->printTextInBox(health_str, 0, 1, 5, 0, 0, 0, 255);
+        getApp()->printTextInBox(health_str, 0, 1, 5, 255, 255, 255, 255);
 
         // Add damage if encountered mine
         if(damage_flag){

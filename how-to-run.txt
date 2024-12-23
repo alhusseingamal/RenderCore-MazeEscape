@@ -1,0 +1,6 @@
+In the command line:
+cd build
+cmake ..
+cmake --build .
+cd ..
+./bin/GAME_APPLICATION.exe
