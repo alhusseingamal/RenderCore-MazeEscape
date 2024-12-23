@@ -10,7 +10,7 @@
 #include <asset-loader.hpp>
 
 // This state shows how to use the ECS framework and deserialization.
-class Playstate: public our::State {
+class PlaystateLevel2: public our::State {
 
     our::World world;
     our::ForwardRenderer renderer;
@@ -27,7 +27,7 @@ class Playstate: public our::State {
 
     void onInitialize() override {
         // First of all, we get the scene configuration from the app config
-        std::string config_path = "config/play_level1.jsonc";
+        std::string config_path = "config/play_level2.jsonc";
         std::ifstream file_in(config_path);
         if(!file_in){
             std::cerr << "Couldn't open file: " << config_path << std::endl;

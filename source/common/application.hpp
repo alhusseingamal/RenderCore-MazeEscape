@@ -68,6 +68,7 @@ namespace our {
         State * currentState = nullptr;         // This will store the current scene that is being run
         State * nextState = nullptr;            // If it is requested to go to another scene, this will contain a pointer to that scene
         std::string currentStateName;
+        std::string previousStateName;
 
         
         // Virtual functions to be overrode and change the default behaviour of the application
@@ -104,10 +105,19 @@ namespace our {
         // Tells the application to change its current state
         // The change will not be applied until the current frame ends
         void changeState(std::string name){
+            previousStateName = currentStateName;
             auto it = states.find(name);
             if(it != states.end()){
                 nextState = it->second;
             }
+        }
+
+        std::string getPreviousStateName() {
+            return previousStateName;
+        }
+
+        std::string getCurrentStateName() {
+            return currentStateName;
         }
 
         // Closes the Application

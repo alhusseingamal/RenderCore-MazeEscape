@@ -2,8 +2,8 @@
     "health": 100,
     "power-up": 5,
     "damage": 99,
-    "duration-minutes": 10,
-    "duration-seconds": 10,
+    "duration-minutes": 0,
+    "duration-seconds": 5,
     "speeddown-factor": 10,
     "extra_time" : 15,
     "start-scene": "menu",
@@ -46,7 +46,8 @@
               "clock":"assets/textures/clock.png",
               "white": "assets/textures/white.jpg",
               "black": "assets/textures/black.jpg",
-              "sword": "assets/textures/sword.png"       
+              "sword": "assets/textures/sword.png",
+              "powerup": "assets/textures/Toad_tex.png"   
             },
             "meshes": {
               "cube": "assets/models/cube.obj",
@@ -54,7 +55,7 @@
               "player1": "assets/models/wall-e.obj",
               "wall" : "assets/models/concrete_wall.obj",
               "clock": "assets/models/clock.obj",
-              "powerup": "assets/models/monkey.obj",
+              "powerup": "assets/models/PowerUp.obj",
               "mine": "assets/models/enemy.obj",
               "sword":"assets/models/sword.obj"
             },
@@ -188,6 +189,19 @@
                 "specular":"white",
                 "ambient_occlusion":"black",
                 "emissive":"clock"
+              },
+              "powerupMaterial": {
+                "type": "textured",
+                "shader": "textured",
+                "pipelineState": {"faceCulling": {"enabled": false}, "depthTesting": {"enabled": true}},
+                "tint": [1, 1, 1, 1],
+                "texture": "powerup",
+                "sampler": "default",
+                "albedo" :"powerup",
+                "roughness":"roughness",
+                "specular":"white",
+                "ambient_occlusion":"black",
+                "emissive":"powerup"
               }
             }
           },
@@ -222,7 +236,47 @@
               // Timeup
               // Add some of them, varying the position
               {
-                "position": [1, 2, -10], "rotation": [0, 0, 0], "scale": [5, 5, 5],
+                "position": [-30, 0, 2], "rotation": [0, 0, 0], "scale": [5, 5, 5],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "clock", "material":"coinMaterial"},
+                    {"type": "timeup"},
+                    {"type": "Movement", "linearVelocity": [0, 0, 0], "angularVelocity": [0, 0, 0]}
+                ]
+              },
+              {
+                "position": [30, 0, 2], "rotation": [0, 0, 0], "scale": [5, 5, 5],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "clock", "material":"coinMaterial"},
+                    {"type": "timeup"},
+                    {"type": "Movement", "linearVelocity": [0, 0, 0], "angularVelocity": [0, 0, 0]}
+                ]
+              },
+              {
+                "position": [0, 0, -20], "rotation": [0, 0, 0], "scale": [5, 5, 5],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "clock", "material":"coinMaterial"},
+                    {"type": "timeup"},
+                    {"type": "Movement", "linearVelocity": [0, 0, 0], "angularVelocity": [0, 0, 0]}
+                ]
+              },
+              {
+                "position": [-2, 0, -50], "rotation": [0, 0, 0], "scale": [5, 5, 5],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "clock", "material":"coinMaterial"},
+                    {"type": "timeup"},
+                    {"type": "Movement", "linearVelocity": [0, 0, 0], "angularVelocity": [0, 0, 0]}
+                ]
+              },
+              {
+                "position": [-45, 0, -70], "rotation": [0, 0, 0], "scale": [5, 5, 5],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "clock", "material":"coinMaterial"},
+                    {"type": "timeup"},
+                    {"type": "Movement", "linearVelocity": [0, 0, 0], "angularVelocity": [0, 0, 0]}
+                ]
+              },
+              {
+                "position": [40, 0, -70], "rotation": [0, 0, 0], "scale": [5, 5, 5],
                 "components": [
                     {"type":"Mesh Renderer", "mesh": "clock", "material":"coinMaterial"},
                     {"type": "timeup"},
@@ -230,14 +284,22 @@
                 ]
               },
 
+
               // Powerups
+              {
+                "position": [0, 0, -18], "rotation": [0, 0, 0], "scale": [10, 10, 10],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "powerup", "material":"powerupMaterial"},
+                    {"type": "powerup"},
+                    {"type": "Movement", "linearVelocity": [0, 0, 0], "angularVelocity": [0, 0, 0]}
+                ]
+              },
               
 
-              // Mines
 
               // enemy near start position
               {
-                "position": [-1, 0, -10], "rotation": [0, 0, 0], "scale": [4, 4, 4],
+                "position": [-1, 0, -10], "rotation": [0, 180, 0], "scale": [4, 4, 4],
                 "components": [
                     {"type":"Mesh Renderer", "mesh": "mine", "material":"mat1"},
                     {"type": "mine"},
@@ -320,6 +382,15 @@
               // enemy at top right
               {
                 "position": [49, 0, -90], "rotation": [0, 0, 0], "scale": [4, 4, 4],
+                "components": [
+                    {"type":"Mesh Renderer", "mesh": "mine", "material":"mat1"},
+                    {"type": "mine"},
+                    {"type": "Movement", "linearVelocity": [0.0, 0.0, 0.2], "angularVelocity": [0, 0, 0]}
+                ]
+              },
+            
+              {
+                "position": [30, 0, -50], "rotation": [0, 0, 0], "scale": [4, 4, 4],
                 "components": [
                     {"type":"Mesh Renderer", "mesh": "mine", "material":"mat1"},
                     {"type": "mine"},

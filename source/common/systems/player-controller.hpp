@@ -149,8 +149,17 @@ namespace our
                 rotation.y -= delta.x * controller->rotationSensitivity; // The x-axis controls the yaw
             }
 
-            if (position.z < -105 && (-5 < position.x && position.x < 5))
-                app->changeState("win");
+            if (position.z < -105 && (-5 < position.x && position.x < 5)) {
+                std::cout << "XXXXXXXXX" << " : ";
+                std::cout << app->getPreviousStateName() << std::endl;
+                std::cout << app->getCurrentStateName() << std::endl;
+                if (app->getCurrentStateName() == "play") {
+                    app->changeState("win");
+                } else {
+                    app->changeState("win-2");
+                }
+                // app->getPreviousStateName() == "play" ? app->changeState("win") : app->changeState("win-2");
+            }
         }
 
         // When the state exits, it should call this function to ensure the mouse is unlocked

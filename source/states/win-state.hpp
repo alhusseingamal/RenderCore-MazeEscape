@@ -58,7 +58,7 @@ class Winstate: public our::State {
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/winscreen.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/win1.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -115,6 +115,9 @@ class Winstate: public our::State {
         auto& keyboard = getApp()->getKeyboard();
 
         if (keyboard.justPressed(GLFW_KEY_SPACE)) {
+            getApp()->changeState("play-2");
+        }
+        else if (keyboard.justPressed(GLFW_KEY_ENTER)) {
             getApp()->changeState("menu");
         }
         else if(keyboard.justPressed(GLFW_KEY_ESCAPE)) {

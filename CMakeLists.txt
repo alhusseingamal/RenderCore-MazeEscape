@@ -122,6 +122,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
 
 set(STATES_SOURCES
         source/states/play-state.hpp
+        source/states/play-state-level2.hpp
         source/states/menu-state.hpp
         source/states/shader-test-state.hpp
         source/states/mesh-test-state.hpp
@@ -133,6 +134,7 @@ set(STATES_SOURCES
         source/states/entity-test-state.hpp
         source/states/renderer-test-state.hpp
         source/states/win-state.hpp
+        source/states/win-state-level2.hpp
         source/states/loss-state.hpp)
 
 # For each example, we add an executable target

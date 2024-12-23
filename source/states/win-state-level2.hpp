@@ -11,7 +11,7 @@
 #include <array>
 
 // This struct is used to store the location and size of a button and the code it should execute when clicked
-struct LossStateButton {
+struct WinLevel2Button {
     // The position (of the top-left corner) of the button and its size in pixels
     glm::vec2 position, size;
     // whether this button is currently selected
@@ -36,7 +36,7 @@ struct LossStateButton {
 };
 
 // This state shows how to use some of the abstractions we created to make a menu.
-class LossState: public our::State {
+class WinstateLevel2: public our::State {
 
     // A meterial holding the menu shader and the menu texture to draw
     our::TexturedMaterial* menuMaterial;
@@ -47,7 +47,7 @@ class LossState: public our::State {
     // A variable to record the time since the state is entered (it will be used for the fading effect).
     float time;
     // An array of the button that we can interact with
-    std::array<LossStateButton, 2> buttons;
+    std::array<WinLevel2Button, 2> buttons;
 
     void onInitialize() override {
         // First, we create a material for the menu's background
@@ -58,7 +58,7 @@ class LossState: public our::State {
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game_over.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/win2.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -101,13 +101,13 @@ class LossState: public our::State {
         // - The argument list () which is the arguments that the lambda should receive when it is called.
         //      We leave it empty since button actions receive no input.
         // - The body {} which contains the code to be executed.
-        // buttons[0].position = {50.0f, 140.f};
-        // buttons[0].size = {520.0f, 100.0f};
-        // buttons[0].action = [this](){this->getApp()->changeState("menu");};
+        buttons[0].position = {400.0f, 535.f};
+        buttons[0].size = {470.0f, 80.0f};
+        buttons[0].action = [this](){this->getApp()->changeState("menu");};
 
-        // buttons[1].position = {1030.0f, 650.0f};
-        // buttons[1].size = {240.0f, 100.0f};
-        // buttons[1].action = [this](){this->getApp()->close();};
+        buttons[1].position = {705.0f, 655.0f};
+        buttons[1].size = {220.0f, 55.0f};
+        buttons[1].action = [this](){this->getApp()->close();};
     }
 
     void onDraw(double deltaTime) override {
@@ -115,9 +115,9 @@ class LossState: public our::State {
         auto& keyboard = getApp()->getKeyboard();
 
         if (keyboard.justPressed(GLFW_KEY_SPACE)) {
-            getApp()->getPreviousStateName() == "play" ? getApp()->changeState("play") : getApp()->changeState("play-2");
+            getApp()->changeState("play");
         }
-        if (keyboard.justPressed(GLFW_KEY_ENTER)) {
+        else if (keyboard.justPressed(GLFW_KEY_ENTER)) {
             getApp()->changeState("menu");
         }
         else if(keyboard.justPressed(GLFW_KEY_ESCAPE)) {
@@ -171,6 +171,7 @@ class LossState: public our::State {
                 rectangle->draw();
             }
         }
+
     }
 
     void onDestroy() override {
