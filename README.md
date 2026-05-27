@@ -337,24 +337,24 @@ The project includes comprehensive testing configurations:
 
 ---
 
-## 📚 Learning Outcomes
+## Learning Outcomes
 
-This project demonstrates mastery of:
+This project demonstrates:
 
-1. ✅ GPU Programming with GLSL shaders
-2. ✅ Vertex array objects and buffer management
-3. ✅ 3D transformations (translation, rotation, scaling)
-4. ✅ Advanced pipeline states (depth testing, face culling, blending)
-5. ✅ Texture mapping and sampling
-6. ✅ Material systems and shader composition
-7. ✅ Entity-Component-System architecture
-8. ✅ Forward rendering with dynamic lighting
-9. ✅ Post-processing effects via framebuffers
-10. ✅ Practical game development with graphics engine integration
+1.  GPU Programming with GLSL shaders
+2.  Vertex array objects and buffer management
+3.  3D transformations (translation, rotation, scaling)
+4.  Advanced pipeline states (depth testing, face culling, blending)
+5.  Texture mapping and sampling
+6.  Material systems and shader composition
+7.  Entity-Component-System architecture
+8.  Forward rendering with dynamic lighting
+9.  Post-processing effects via framebuffers
+10. Practical game development with graphics engine integration
 
 ---
 
-## 🎯 Key Features Explained
+## Key Features Explained
 
 ### Shader System
 - Multiple shader programs for different rendering needs
@@ -380,7 +380,7 @@ This project demonstrates mastery of:
 
 ---
 
-## 📝 Notes
+## Notes
 
 - The project includes extensive test configurations for graphics features (shader tests, mesh tests, texture tests, etc.)
 - All game environments are configured through JSON files, allowing for easy level design and iteration
@@ -389,13 +389,13 @@ This project demonstrates mastery of:
 
 ---
 
-## 📄 License
+## License
 
 This project is part of an academic computer graphics course at the **Computer Engineering Department of the Faculty of Engineering at Cairo University.**
 
 ---
 
-## 👨‍💻 Authors
+## Authors
 
 Developed as a comprehensive learning project for advanced graphics programming and game engine architecture.
 - Alhussein Ali
