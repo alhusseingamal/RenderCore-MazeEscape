@@ -8,5 +8,16 @@
           "height":720
       },
       "fullscreen": false
+  },
+  "screens": {
+    "start-menu": "assets/textures/menu.png",
+    "game-over": "assets/textures/game_over.png",
+    "win-1": "assets/textures/win1.png",
+    "win-2": "assets/textures/win2.png"
+    
+  },
+  "game": {
+    "play-level-1-config": "config/play_level1.jsonc",
+    "play-level-2-config": "config/play_level2.jsonc"
   }
-}
+}   

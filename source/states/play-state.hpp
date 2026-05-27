@@ -19,7 +19,9 @@ class Playstate: public our::State {
     our::playerControllerSystem playerController;
 
     int health, power_up, damage;
-    int duration_minutes, duration_seconds, speeddown_factor, clock;
+    int max_health; // should be made a constant
+    int duration_minutes, duration_seconds, speeddown_factor;
+    float time_accumulator = 0.0f;
     int extra_time;
     bool extra_time_flag = false;
     bool damage_flag = false;
@@ -27,7 +29,7 @@ class Playstate: public our::State {
 
     void onInitialize() override {
         // First of all, we get the scene configuration from the app config
-        std::string config_path = "config/play_level1.jsonc";
+        std::string config_path = getApp()->getConfig()["game"]["play-level-1-config"].get<std::string>();;
         std::ifstream file_in(config_path);
         if(!file_in){
             std::cerr << "Couldn't open file: " << config_path << std::endl;
@@ -45,11 +47,12 @@ class Playstate: public our::State {
         }
         // Initialize health
         health = app_config["health"];
+        max_health = app_config["health"];
         power_up = app_config["power-up"];
         damage = app_config["damage"];
         // Initialize timer
         duration_minutes = app_config["duration-minutes"], duration_seconds = app_config["duration-seconds"];
-        speeddown_factor = app_config["speeddown-factor"], clock = speeddown_factor;
+        speeddown_factor = app_config["speeddown-factor"];
         extra_time = app_config["extra_time"];
         // We initialize the camera controller system since it needs a pointer to the app
         cameraController.enter(getApp());
@@ -82,15 +85,32 @@ class Playstate: public our::State {
         else {
             getApp()->printTextCenter(remaining_time, 1, 5, 255, 255, 255, 255);   // print in White
         }
-        if (duration_minutes == 0 && duration_seconds == 0) {
+        if (duration_minutes < 0 || (duration_minutes == 0 && duration_seconds <= 0)) {
+            duration_minutes = 0;
+            duration_seconds = 0;
             getApp()->changeState("loss");
+            return; // Stop executing the rest of this frame
         }
         if (health <= 0) {
             getApp()->changeState("loss");
+            return;
         }
-        clock = (clock - 1 + speeddown_factor) % speeddown_factor;
-        if (clock == 0) duration_seconds = (duration_seconds - 1 + 60) % 60;
-        if (duration_seconds == 59 && clock == 0) duration_minutes--;
+        
+        // Accumulate time based on how much real time passed, scaled by your factor
+        time_accumulator += (float)deltaTime * speeddown_factor;
+
+        // Use a while loop just in case a severe lag spike causes multiple seconds to pass in one frame
+        while (time_accumulator >= 1.0f) {
+            duration_seconds--;
+            
+            if (duration_seconds < 0) {
+                duration_seconds = 59;
+                duration_minutes--;
+            }
+            
+            // Subtract 1 second from the accumulator
+            time_accumulator -= 1.0f;
+        }
 
         // Add extra time if collected timeup
         if(extra_time_flag){
@@ -114,8 +134,8 @@ class Playstate: public our::State {
         }
 
         if(power_up_flag){
-            if (health + power_up > 100) {  // the 100 should be replaced with the max health (not be hardcoded)
-                health = 100;
+            if (health + power_up > max_health) {  // the 100 should be replaced with the max health (not be hardcoded)
+                health = max_health;
             } else {
                 health += power_up;
             }

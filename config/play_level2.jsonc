@@ -1,10 +1,10 @@
 {
   "health": 100,
-  "power-up": 5,
-  "damage": 99,
-  "duration-minutes": 0,
-  "duration-seconds": 5,
-  "speeddown-factor": 10,
+  "power-up": 10,
+  "damage": 25,
+  "duration-minutes": 1,
+  "duration-seconds": 0,
+  "speeddown-factor": 1,
   "extra_time" : 15,
   "start-scene": "menu",
   "window":

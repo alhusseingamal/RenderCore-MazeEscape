@@ -10,6 +10,8 @@
 #include <functional>
 #include <array>
 
+#include <iostream>
+
 // This struct is used to store the location and size of a button and the code it should execute when clicked
 struct Button {
     // The position (of the top-left corner) of the button and its size in pixels
@@ -61,9 +63,21 @@ class Menustate: public our::State {
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menu.png");
-        // Initially, the menu material will be black, then it will fade in
+        std::string menuTexturePath = getApp()->getConfig()["screens"]["start-menu"].get<std::string>();
+        menuMaterial->texture = our::texture_utils::loadImage(menuTexturePath);
+        if (menuMaterial->texture == nullptr) {
+            std::cerr << "CRITICAL ERROR: Texture path resolved, but image data failed to decode!" << std::endl;
+        } else {
+            // std::cout << "loaded the image at: " << menuTexturePath << std::endl;
+        }
+        // Bind the texture
+        menuMaterial->texture->bind(); 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // menu is black on first frame, then it will fade in as the onDraw function is called
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
 
         // Second, we create a material to highlight the hovered buttons
         highlightMaterial = new our::TintedMaterial();

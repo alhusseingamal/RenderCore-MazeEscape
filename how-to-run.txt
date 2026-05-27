@@ -4,3 +4,15 @@ cmake ..
 cmake --build .
 cd ..
 ./bin/GAME_APPLICATION.exe
+
+
+# on Linux
+
+rm -rf build
+rm -rf bin
+mkdir build
+cd build
+cmake ..
+cmake --build . -j$(nproc)
+cd ..
+./bin/GAME_APPLICATION

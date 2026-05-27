@@ -1,4 +1,3 @@
-
 # build directories
 cmake-build-*/
 build/
@@ -15,7 +14,7 @@ imgui.ini
 CMakeSettings.json
 .vs/
 
-# Clion specific files
+# Clean specific files
 .idea/
 
 # Visual Studio Code specific files
@@ -23,3 +22,9 @@ CMakeSettings.json
 
 # Screenshots
 screenshots/
+
+# instructions
+instructions.md
+instructions.pdf
+Team_07.pdf
+how-to-run.txt

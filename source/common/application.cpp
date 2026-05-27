@@ -18,7 +18,7 @@ our::AudioController* our::AudioController::audioController = NULL;
 #include <flags/flags.h>
 
 // Include the Dear ImGui implementation headers
-#define IMGUI_IMPL_OPENGL_LOADER_GLAD2
+// #define IMGUI_IMPL_OPENGL_LOADER_GLAD2
 #include <imgui_impl/imgui_impl_glfw.h>
 #include <imgui_impl/imgui_impl_opengl3.h>
 
@@ -34,7 +34,12 @@ std::string default_screenshot_filepath() {
     auto time = std::time(nullptr);
     
     struct tm localtime;
-    localtime_s(&localtime, &time);
+    #if defined(_WIN32) || defined(__WIN64)    
+        localtime_s(&localtime, &time);
+    #else
+        localtime_r(&time, &localtime);
+    #endif
+
     stream << "screenshots/screenshot-" << std::put_time(&localtime, "%Y-%m-%d-%H-%M-%S") << ".png";
     return stream.str();
 }

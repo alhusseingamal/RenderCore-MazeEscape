@@ -58,7 +58,12 @@ class LossState: public our::State {
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game_over.png");
+        std::string gameOverTexturePath = getApp()->getConfig()["screens"]["game-over"].get<std::string>();
+        menuMaterial->texture = our::texture_utils::loadImage(gameOverTexturePath);
+        // Bind the texture
+        menuMaterial->texture->bind(); 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
